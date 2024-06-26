@@ -1,0 +1,12 @@
+
+
+#dependencies
+Project/Frontend/proj/node_modules
+Project/Frontend/proj/.pnp
+Project/Frontend/proj.pnp.js
+
+# testing
+Project/Frontend/proj/coverage
+
+# production
+Project/Frontend/proj/build
