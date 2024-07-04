@@ -1,8 +1,5 @@
-# React + Vite
+This is a simple implementation of the mechanism of transfer and fetching of files to and from the ipfs network using pinata's api.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+We will use this to store json files of user profiles and the returned cid will be mapped with the wallet address of the user in a smart contract.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+When wallet is connected initially, if mapping exists, just display profile, else, prompt profile creation.
