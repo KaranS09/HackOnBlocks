@@ -4,6 +4,8 @@ function Dapp() {
   const [selectedFile, setSelectedFile] = useState("");
   const [cid, setCid] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [jsonFetched, setJsonFetched] = useState(null);
+
   const changeHandler = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -40,22 +42,18 @@ function Dapp() {
       const gatewayUrl = `${import.meta.env.VITE_GATEWAY_URL}/ipfs/${
         resData.IpfsHash
       }`;
-      resolveImageUrl(gatewayUrl);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+      setImageUrl(gatewayUrl);
 
-  const resolveImageUrl = async (url) => {
-    try {
-      const response = await fetch(url);
-      if (response.ok) {
-        setImageUrl(response.url);
+      // Fetch the JSON data from the resolved URL
+      const dataResponse = await fetch(gatewayUrl);
+      if (dataResponse.ok) {
+        const jsonData = await dataResponse.json();
+        setJsonFetched(jsonData);
       } else {
-        console.error("Failed to resolve image URL:", response.statusText);
+        console.error("Failed to fetch JSON data:", dataResponse.statusText);
       }
     } catch (error) {
-      console.error("Error resolving image URL:", error);
+      console.log(error);
     }
   };
 
@@ -78,25 +76,10 @@ function Dapp() {
           ) : (
             <p>Loading image...</p>
           )}
+          {jsonFetched && <pre>{JSON.stringify(jsonFetched, null, 2)}</pre>}
         </>
       )}
     </>
-    // <>
-    //   <label className="form-label"> Choose File</label>
-    //   <input type="file" onChange={changeHandler} />
-    //   <button onClick={handleSubmission}>Submit</button>
-    //   {cid && (
-    //     <img
-    //       src={`${import.meta.env.VITE_GATEWAY_URL}/ipfs/${cid}`}
-    //       alt="ipfs image"
-    //     />
-    //   )}
-    //   <img
-    //     src="http://bafybeihedd76a4xevckrkjouepn3dntugasbfyxzdpny4islnwd7gkkg2u.ipfs.localhost:8080/"
-    //     alt="cant't load"
-    //     style={{ width: 100 }}
-    //   />
-    // </>
   );
 }
 
