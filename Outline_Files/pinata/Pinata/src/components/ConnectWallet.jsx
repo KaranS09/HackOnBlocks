@@ -1,16 +1,8 @@
 import { useState } from "react";
 import { ethers } from "ethers";
 
-const ConnectWallet = function () {
+const ConnectWallet = function ({ onValueChange }) {
   const [walletAddress, setWalletAddress] = useState("");
-
-  async function connectWallet() {
-    if (typeof window.ethereum !== "undefined") {
-      await requestAccount();
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-    }
-  }
 
   async function requestAccount() {
     console.log("Requesting account.....");
@@ -24,6 +16,8 @@ const ConnectWallet = function () {
         });
         console.log(accounts);
         setWalletAddress(accounts[0]);
+        onValueChange(accounts[0]);
+        console.log("peer here");
       } catch (error) {
         console.log("Error connecting....");
       }

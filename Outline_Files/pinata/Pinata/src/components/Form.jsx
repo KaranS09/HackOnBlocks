@@ -1,4 +1,6 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
+import User from "../user.json";
 
 const Form = function () {
   const [formData, setFormData] = useState({
@@ -8,8 +10,12 @@ const Form = function () {
   });
 
   const [jsonDisplay, setJsonDisplay] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [contract, setContract] = useState(null);
   const [data, setData] = useState("");
   const [jsonCid, setJsonCid] = useState("");
+
+  const contractAddress = "0x9Fd714A1E536d0fF5D7670BD9E4727b9194A299e";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,27 +55,81 @@ const Form = function () {
       const resData = await res.json();
       setJsonCid(resData.IpfsHash);
       console.log("JSON CID:", resData.IpfsHash);
+      return resData.IpfsHash;
     } catch (error) {
       console.log("Error uploading JSON to IPFS:", error);
+      throw error;
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const jsonData = JSON.stringify(formData, null, 2);
-    // setJsonDisplay(JSON.parse(jsonData));
-    await downloadJSON(jsonData);
-    fetchJSON(jsonCid);
+    const cid = await downloadJSON(jsonData);
+    setJsonDisplay(JSON.parse(jsonData));
+    await pushToChain(cid);
+    await fetchJSON(cid);
   };
 
   const fetchJSON = async function (jsonCid) {
     const gatewayUrl = `${import.meta.env.VITE_GATEWAY_URL}/ipfs/${jsonCid}`;
-    const dataResponse = await fetch(gatewayUrl);
-    if (dataResponse.ok) {
-      const jsonData = await dataResponse.json();
-      setData(jsonData);
+    try {
+      const dataResponse = await fetch(gatewayUrl);
+      if (dataResponse.ok) {
+        const jsonData = await dataResponse.json();
+        setData(jsonData);
+      } else {
+        console.error("Failed to fetch JSON data:", dataResponse.statusText);
+      }
+    } catch (error) {
+      console.error("Failed to fetch JSON data:", error);
+    }
+  };
+
+  const pushToChain = async function (ipfsHash) {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        setWalletAddress(accounts[0]);
+
+        const provider = new ethers.providers.Web3Provider(
+          window.ethereum,
+          "any"
+        );
+        const signer = provider.getSigner();
+
+        const contractz = new ethers.Contract(
+          contractAddress,
+          User.abi,
+          signer
+        );
+        setContract(contractz);
+
+        const tx = await contract.storeUserHash(ipfsHash);
+        await tx.wait();
+        console.log("Transaction confirmed:", tx);
+      } catch (error) {
+        console.log("Error connecting or storing hash:", error);
+      }
+
+      getHash();
     } else {
-      console.error("Failed to fetch JSON data:", dataResponse.statusText);
+      console.log("MetaMask not detected");
+    }
+  };
+
+  const getHash = async function () {
+    if (contract) {
+      try {
+        const hash = await contract.getUserHash(walletAddress);
+        console.log("Retrieved hash:", hash);
+      } catch (error) {
+        console.error("Error getting hash:", error);
+      }
+    } else {
+      console.log("Contract not initialized");
     }
   };
 
