@@ -29,6 +29,9 @@ const Create = () => {
     header: "",
   });
 
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
   const JWT =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJhMWUyMGQxNC0zYzc1LTRkZDItOTI0Yi00NzVlMzczYWRiZTMiLCJlbWFpbCI6ImthcmFuLnNhdGhpc2g5ODBAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6ImQ0YzNhMWU0MWYwMjEyN2IwNThhIiwic2NvcGVkS2V5U2VjcmV0IjoiYTU1Y2NiZGI0YWMzYWUwOGZiOGZlMzRkMzYwZjNkZjA3MzZiYjg5YzE3ZDM3NWZjMzBiZGE1OTE1ZTQ2NmQ3MCIsImV4cCI6MTc1MTY1MTA3MH0.5LxBUUp3lPZerVfRtx-Gw3JzTpIDXyT7WMej7wRQ0MA";
 
@@ -54,6 +57,9 @@ const Create = () => {
     });
     uploadData.append("pinataOptions", options);
 
+    setIsUploading(true);
+    setUploadSuccess(false);
+
     try {
       const res = await fetch(
         "https://api.pinata.cloud/pinning/pinFileToIPFS",
@@ -71,9 +77,13 @@ const Create = () => {
         ...prevData,
         ipfsHASH: resData.IpfsHash,
       }));
+      setUploadSuccess(true);
       console.log("IPFS Hash:", resData.IpfsHash);
     } catch (error) {
       console.error("Error uploading file to IPFS:", error);
+      setUploadSuccess(false);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -149,6 +159,10 @@ const Create = () => {
                       onChange={handleFileUpload}
                       required
                     />
+                    {isUploading && <p>Uploading file to IPFS...</p>}
+                    {uploadSuccess && !isUploading && (
+                      <p>File successfully uploaded to IPFS!</p>
+                    )}
                   </div>
 
                   <div className="form__input">
@@ -158,7 +172,7 @@ const Create = () => {
                       name="amount"
                       value={formData.amount}
                       onChange={handleChange}
-                      placeholder="Enter price for one item (ETH)"
+                      placeholder="Enter price for one item (MATIC)"
                       required
                     />
                   </div>
