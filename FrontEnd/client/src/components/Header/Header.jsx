@@ -23,11 +23,7 @@ const NAV__LINKS = [
   },
   {
     display: "Payment",
-    url: "/payment",
-  },
-  {
-    display: "Login",
-    url: "/login",
+    url: "https://669957249dd1e02c5d104b62--voluble-starlight-e1c3d4.netlify.app/",
   },
 ];
 

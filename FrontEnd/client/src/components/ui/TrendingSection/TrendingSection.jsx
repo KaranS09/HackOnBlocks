@@ -9,7 +9,7 @@ import NftCard from "../Nft-card/Nftcard";
 const Trending = () => {
   return (
     <section>
-      <Container>
+      {/* <Container>
         <Row>
           <Col lg="12" className="mb-5">
             <h3 className="trending__title">Trending</h3>
@@ -21,7 +21,7 @@ const Trending = () => {
             </Col>
           ))}
         </Row>
-      </Container>
+      </Container> */}
     </section>
   );
 };

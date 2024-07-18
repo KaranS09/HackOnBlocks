@@ -57,7 +57,7 @@ const NftCard = ({ item, idCard }) => {
         {isImage ? (
           <div className="blurred-image-container">
             <img
-              src={url}
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjclDv0e9IVQdcKL5CgI8DITEgglEavaKqww&s"
               alt={item.des}
               className="blurred-image adjust-img"
             />
@@ -91,7 +91,7 @@ const NftCard = ({ item, idCard }) => {
 
         <div>
           <h6>Cost To Access</h6>
-          <p>{item.amount} ETH</p>
+          <p>{item.amount} MATIC</p>
         </div>
 
         <span className="history__link">
