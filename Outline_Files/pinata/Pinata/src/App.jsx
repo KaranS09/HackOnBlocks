@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, ConnectWallet } from "./components";
+import { Form, ConnectWallet, MyForm } from "./components";
 import Dapp from "./Dapp.jsx";
 
 function App() {
@@ -20,6 +20,8 @@ function App() {
 
       <h1>Form section</h1>
       <Form />
+      <h1>Docs Section</h1>
+      <MyForm />
     </>
   );
 }

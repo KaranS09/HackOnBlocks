@@ -1,4 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+import { ethers } from "ethers";
+
+import DocContractABI from "./doc.json";
 
 import CommonSection from "../components/ui/Common-section/CommonSection";
 
@@ -10,8 +14,61 @@ import { Container, Row, Col } from "reactstrap";
 
 import "../components/styles/market.css";
 
+const docContractAddress = "0x32e4488Eb7B94c75aCcBF58C169a82B548683363";
+
+const fetchDocuments = async () => {
+  if (window.ethereum) {
+    try {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+
+      const docContract = new ethers.Contract(
+        docContractAddress,
+        DocContractABI.abi,
+        signer
+      );
+
+      // Call the getAllDocuments function from your doc contract
+      const documents = await docContract.getAllDocuments();
+
+      // Structure the results in an array of objects
+      const structuredDocuments = documents.map((doc) => ({
+        user: doc.user,
+        ipfsHASH: doc.ipfsHASH,
+        amount: ethers.utils.formatEther(doc.amount),
+        timestamp: new Date(doc.timestamp.toNumber() * 1000).toLocaleString(),
+        des: doc.des,
+        docType: doc.docType,
+        header: doc.header,
+      }));
+
+      console.log(structuredDocuments);
+
+      return structuredDocuments;
+    } catch (error) {
+      console.error(
+        "Error connecting to contract or fetching documents:",
+        error
+      );
+    }
+  } else {
+    console.log("MetaMask not detected");
+  }
+};
+
 const Market = () => {
-  const [data, setData] = useState(NFT__DATA);
+  const [documents, setDocuments] = useState([]);
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const loadDocuments = async () => {
+      const docs = await fetchDocuments();
+      setDocuments(docs);
+    };
+
+    loadDocuments();
+  }, []);
 
   const handleCategory = () => {};
 
@@ -85,9 +142,9 @@ const Market = () => {
               </div>
             </Col>
 
-            {data?.map((item) => (
-              <Col lg="3" md="4" sm="6" className="mb-4" key={item.id}>
-                <NftCard item={item} />
+            {documents?.map((item, index) => (
+              <Col lg="3" md="4" sm="6" className="mb-4" key={index}>
+                <NftCard item={item} idCard={index} />
               </Col>
             ))}
           </Row>
