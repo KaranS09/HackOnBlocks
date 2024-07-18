@@ -1,16 +1,10 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import "./header.css";
-import { Container } from "react-bootstrap";
+import { Container } from "reactstrap";
+
 import { NavLink, Link } from "react-router-dom";
 
-// Nav links
-
 const NAV__LINKS = [
-  {
-    display: "Login",
-    url: "/login",
-  },
-
   {
     display: "Home",
     url: "/home",
@@ -27,15 +21,42 @@ const NAV__LINKS = [
     display: "Contact",
     url: "/contact",
   },
+  {
+    display: "Payment",
+    url: "/payment",
+  },
 ];
 
 const Header = () => {
+  const headerRef = useRef(null);
+
+  const menuRef = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      if (
+        document.body.scrollTop > 80 ||
+        document.documentElement.scrollTop > 80
+      ) {
+        headerRef.current.classList.add("header__shrink");
+      } else {
+        headerRef.current.classList.remove("header__shrink");
+      }
+    });
+
+    return () => {
+      window.removeEventListener("scroll");
+    };
+  }, []);
+
+  const toggleMenu = () => menuRef.current.classList.toggle("active__menu");
+
   return (
-    <header className="header">
+    <header className="header" ref={headerRef}>
       <Container>
         <div className="navigation">
           <div className="logo">
-            <h2 className="d-flex gap-2 align-items-center">
+            <h2 className=" d-flex gap-2 align-items-center ">
               <span>
                 <i class="ri-safe-2-fill"></i>
               </span>
@@ -43,28 +64,33 @@ const Header = () => {
             </h2>
           </div>
 
-          <div className="nav__menu">
+          <div className="nav__menu" ref={menuRef} onClick={toggleMenu}>
             <ul className="nav__list">
               {NAV__LINKS.map((item, index) => (
                 <li className="nav__item" key={index}>
-                  <NavLink to={item.url}>{item.display}</NavLink>
+                  <NavLink
+                    to={item.url}
+                    className={(navClass) =>
+                      navClass.isActive ? "active" : ""
+                    }
+                  >
+                    {item.display}
+                  </NavLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="nav__right  d-flex align-items-center gap-5">
-            <button className="btn">
-              <Link to="/wallet" className="d-flex align-items-center gap-2">
-                <span>
-                  <i class="ri-wallet-line"></i>
-                </span>
-                Connect Wallet
-              </Link>
+          <div className="nav__right d-flex align-items-center gap-5 ">
+            <button className="btn d-flex gap-2 align-items-center">
+              <span>
+                <i class="ri-wallet-line"></i>
+              </span>
+              <Link to="/wallet">Connect Wallet</Link>
             </button>
 
             <span className="mobile__menu">
-              <i class="ri-menu-line"></i>
+              <i class="ri-menu-line" onClick={toggleMenu}></i>
             </span>
           </div>
         </div>

@@ -1,7 +1,7 @@
-import img01 from "../images/img-01.jpg";
-import img02 from "../images/img-02.jpg";
-import img03 from "../images/img-03.jpg";
-import img04 from "../images/img-04.jpg";
+import img01 from "../images/img-01.png";
+import img02 from "../images/img-02.png";
+import img03 from "../images/img-03.png";
+import img04 from "../images/img-04.png";
 import img05 from "../images/img-05.jpg";
 import img06 from "../images/img-06.jpg";
 import img07 from "../images/img-07.jpg";
@@ -19,9 +19,9 @@ export const NFT__DATA = [
   {
     id: "01",
     title: "Travel Monkey Club",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    desc: "Wee -Monkey collections for the travel lovers, get your hands on this unique collection of NFTs and show off your love for travel.",
     imgUrl: img01,
-    creator: "Trista Francis",
+    creator: "Wee the Monkey",
     creatorImg: ava01,
     currentBid: 5.89,
   },
@@ -29,9 +29,9 @@ export const NFT__DATA = [
   {
     id: "02",
     title: "Sir Lion Swag",
-    desc: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veniam adipisci cupiditate officia, nostrum et deleniti vero corrupti facilis minima laborum nesciunt nulla error natus saepe illum quasi ratione suscipit tempore dolores. Recusandae, similique modi voluptates dolore repellat eum earum sint.",
+    desc: "The MineCraft player Steve After killing  the ender dragon.",
     imgUrl: img02,
-    creator: "Trista Francis",
+    creator: "Steve",
     creatorImg: ava02,
     currentBid: 5.09,
   },

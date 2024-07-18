@@ -11,6 +11,7 @@
 .header__shrink {
   background: #14141f;
   box-shadow: 2px 2px 4px -2px #e250e5;
+  transition-duration: 1s;
 }
 
 .navigation {
@@ -95,7 +96,7 @@
     right: 0;
     width: 250px;
     height: 100%;
-    background: #343444;
+    background: #8686aa;
     z-index: 333333;
     flex-direction: column;
     padding-top: 40px;
