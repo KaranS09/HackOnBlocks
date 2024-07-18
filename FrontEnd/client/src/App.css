@@ -40,3 +40,13 @@ section,
 footer {
   padding: 60px 0px;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  background: #03031c;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 2em;
+  background: linear-gradient(-45deg, #007185, #4b50e6, #0b890f, #4b50e6);
+}

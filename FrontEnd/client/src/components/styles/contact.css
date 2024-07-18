@@ -1,0 +1,11 @@
+.contact {
+  color: aliceblue;
+}
+.button_send {
+  color: white;
+  background-color: rgb(5, 49, 111);
+}
+.button_send:hover {
+  background-color: rgb(73, 6, 114);
+  transition-duration: 1s;
+}
