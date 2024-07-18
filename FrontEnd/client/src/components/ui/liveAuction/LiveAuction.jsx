@@ -10,7 +10,7 @@ import "./live-auction.css";
 const LiveAuction = () => {
   return (
     <section>
-      <Container>
+      {/* <Container>
         <Row>
           <Col lg="12" className="mb-5">
             <div className="live__auction__top d-flex align-items-center justify-content-between ">
@@ -27,7 +27,7 @@ const LiveAuction = () => {
             </Col>
           ))}
         </Row>
-      </Container>
+      </Container> */}
     </section>
   );
 };
