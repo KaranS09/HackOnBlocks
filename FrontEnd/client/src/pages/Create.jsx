@@ -200,7 +200,9 @@ const Create = () => {
                       required
                     ></textarea>
                   </div>
-                  <button type="submit">Submit</button>
+                  <button type="submit" className="btn11">
+                    Submit
+                  </button>
                 </form>
               </div>
             </Col>

@@ -25,7 +25,16 @@
 }
 
 .cr1 {
-  color: black !important;
+  color: rgb(102, 112, 215) !important;
+}
+.btn11 {
+  padding: 5px 10px;
+  border-radius: 10px;
+  background-color: rgb(6, 102, 115);
+}
+.btn11:hover {
+  background-color: rgb(154, 216, 224);
+  transition-duration: 1s;
 }
 
 ::-webkit-calendar-picker-indicator {
