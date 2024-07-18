@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./header.css";
 import { Container } from "reactstrap";
 
@@ -25,9 +25,15 @@ const NAV__LINKS = [
     display: "Payment",
     url: "/payment",
   },
+  {
+    display: "Login",
+    url: "/login",
+  },
 ];
 
 const Header = () => {
+  const [walletAddress, setWalletAddress] = useState("");
+
   const headerRef = useRef(null);
 
   const menuRef = useRef(null);
@@ -50,6 +56,27 @@ const Header = () => {
   }, []);
 
   const toggleMenu = () => menuRef.current.classList.toggle("active__menu");
+
+  async function requestAccount() {
+    console.log("Requesting account.....");
+
+    if (window.ethereum) {
+      console.log("detected");
+
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        console.log(accounts);
+        setWalletAddress(accounts[0]);
+        console.log("peer here");
+      } catch (error) {
+        console.log("Error connecting....");
+      }
+    } else {
+      console.log("Metamask not detected");
+    }
+  }
 
   return (
     <header className="header" ref={headerRef}>
@@ -86,7 +113,13 @@ const Header = () => {
               <span>
                 <i class="ri-wallet-line"></i>
               </span>
-              <Link to="/wallet">Connect Wallet</Link>
+              {walletAddress ? (
+                <span className="lighten">{walletAddress}</span>
+              ) : (
+                <span className="lighten" onClick={requestAccount}>
+                  Connect Wallet
+                </span>
+              )}
             </button>
 
             <span className="mobile__menu">
