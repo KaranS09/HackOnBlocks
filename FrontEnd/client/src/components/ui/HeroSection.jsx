@@ -27,7 +27,7 @@ const HeroSection = () => {
                 </button>
                 <button className=" create__btn d-flex align-items-center gap-2">
                   <i class="ri-ball-pen-line"></i>
-                  <Link to="/market">Create</Link>
+                  <Link to="/create">Create</Link>
                 </button>
               </div>
             </div>

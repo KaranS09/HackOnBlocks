@@ -22,9 +22,9 @@ const Contact = () => {
             <Col lg="6" md="6" className="m-auto text-center">
               <h2 className="contact">Drop a Message</h2>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Temporibus ipsum aperiam cumque fugit suscipit animi natus
-                nostrum voluptatem iste quam!
+               Your review and Opinion Do matter to us
+                you can contact us and share your review by writing us A mail 
+                and following the provided entries
               </p>
               <div className="contact mt-4">
                 <form onSubmit={handleSubmit}>
